@@ -34,21 +34,21 @@ enum RESULT {
 }
 
 // Represents each entry in the Rock-Paper-Scissors strategy guide
-class Pair {
+class StrategyGuideEntry {
     private SHAPE opponent;
     private SHAPE mine;
     private RESULT roundResult;
 
     // Used in part 1 when interpreting the second column in the strategy guide
     // as what shape we should play.
-    public Pair(SHAPE opponent, SHAPE mine) {
+    public StrategyGuideEntry(SHAPE opponent, SHAPE mine) {
         this.opponent = opponent;
         this.mine = mine;
     }
 
     // Used in part 2 when interpreting the second column in the strategy guide
     // as what the round result should be.
-    public Pair(SHAPE opponent, RESULT roundResult) {
+    public StrategyGuideEntry(SHAPE opponent, RESULT roundResult) {
         this.opponent = opponent;
         this.roundResult = roundResult;
     }
@@ -81,11 +81,11 @@ public class Day2_Rock_Paper_Scissors {
 
             // Stores each pair of values of the strategy guide assuming that the
             // second column represents my rock-paper-scissors shape.
-            List<Pair> entriesWithMyShape = new ArrayList<>();
+            List<StrategyGuideEntry> entriesWithMyShape = new ArrayList<>();
 
             // Stores each pair of values of the strategy guide assuming that the
             // second column represents the round result.
-            List<Pair> entriesWithRoundResult = new ArrayList<>();
+            List<StrategyGuideEntry> entriesWithRoundResult = new ArrayList<>();
 
             while (sc.hasNextLine()) {
                 String line = sc.nextLine();
@@ -93,10 +93,10 @@ public class Day2_Rock_Paper_Scissors {
 
                 SHAPE opponent = letterToShape.get(tokens[0]);
                 SHAPE mine = letterToShape.get(tokens[1]);
-                entriesWithMyShape.add(new Pair(opponent, mine));
+                entriesWithMyShape.add(new StrategyGuideEntry(opponent, mine));
 
                 RESULT roundResult = letterToResult.get(tokens[1]);
-                entriesWithRoundResult.add(new Pair(opponent, roundResult));
+                entriesWithRoundResult.add(new StrategyGuideEntry(opponent, roundResult));
             }
 
             int part1 = part1(entriesWithMyShape);
@@ -111,7 +111,7 @@ public class Day2_Rock_Paper_Scissors {
     }
 
     // Given the opponent and my rock-paper-scissor shapes, returns the round result.
-    private static RESULT evaluateRound(Pair entry) {
+    private static RESULT evaluateRound(StrategyGuideEntry entry) {
         int opponent = entry.getOpponentShape().getScore();
         int mine = entry.getMyShape().getScore();
 
@@ -134,9 +134,9 @@ public class Day2_Rock_Paper_Scissors {
     // Part 1: Store the score of selecting a Rock, Paper, Scissor shape and whether a round is a win, draw, or loss
     // in an enum at the top of this file. Then, iterate through all the pairs of opponent shapes and my shapes and
     // determine whether the round is a win, loss, or draw and calculate the resulting score accordingly.
-    private static int part1(List<Pair> entries) {
+    private static int part1(List<StrategyGuideEntry> entries) {
         int totalScore = 0;
-        for (Pair entry : entries) {
+        for (StrategyGuideEntry entry : entries) {
             totalScore += entry.getMyShape().getScore();
 
             RESULT roundResult = evaluateRound(entry);
@@ -148,7 +148,7 @@ public class Day2_Rock_Paper_Scissors {
 
     // Given the opponent rock-paper-scissor shape and the desired round result,
     // returns the shape I should select.
-    private static SHAPE determineMyShape(Pair entry) {
+    private static SHAPE determineMyShape(StrategyGuideEntry entry) {
         RESULT roundResult = entry.getRoundResult();
         SHAPE opponent = entry.getOpponentShape();
         Map<Integer, SHAPE> scoreToShape = Map.of(
@@ -179,9 +179,9 @@ public class Day2_Rock_Paper_Scissors {
     // in an enum at the top of this file. Then, iterate through all the pairs of opponent shapes and round results and
     // calculate which shape I should select in order for the round to end as expected.
     // Calculate the total score accordingly.
-    private static int part2(List<Pair> entries) {
+    private static int part2(List<StrategyGuideEntry> entries) {
         int totalScore = 0;
-        for (Pair entry : entries) {
+        for (StrategyGuideEntry entry : entries) {
             totalScore += entry.getRoundResult().getScore();
             totalScore += determineMyShape(entry).getScore();
         }

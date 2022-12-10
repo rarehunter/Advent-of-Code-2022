@@ -11,3 +11,11 @@ Problem descriptions can be found here:
 https://adventofcode.com/2022
 
 My approaches and overall thought process to each of this season's problems are documented in the source code. Future improvements are called out as well.
+
+_Note: The input files themselves are not uploaded here as the input files themselves are not licensed for reproduction or distribution._
+
+See:
+- https://www.reddit.com/r/adventofcode/wiki/faqs/copyright/puzzle_texts/
+- https://www.reddit.com/r/adventofcode/wiki/faqs/copyright/inputs/
+- https://adventofcode.com/2022/about#legal
+

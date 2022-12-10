@@ -10,7 +10,7 @@ enum Command {
 }
 
 class CommandEntry {
-    private Command command;
+    private final Command command;
     private int value;
 
     public CommandEntry(Command command) {
@@ -33,6 +33,12 @@ class CommandEntry {
 public class Day10_Cathode_Ray_Tube {
     private static final int SCREEN_PIXEL_HEIGHT = 6;
     private static final int SCREEN_PIXEL_WIDTH = 40;
+
+    // The problem description uses '#' by default but modified here for increased readability.
+    private static final char LIT_PIXEL = '█';
+
+    // The problem description uses '.' by default but modified here for increased readability.
+    private static final char UNLIT_PIXEL = ' ';
 
     public static void main(String[] args) {
         File file = new File("./inputs/day10/day10.txt");
@@ -99,18 +105,18 @@ public class Day10_Cathode_Ray_Tube {
         return signalStrengthSum;
     }
 
-    // Helper method to initialize a screen with all dots (.)
+    // Helper method to initialize a screen with unlit pixel characters.
     private static void initializeScreen(char[][] screen) {
         for (char[] chars : screen) {
-            Arrays.fill(chars, '.');
+            Arrays.fill(chars, UNLIT_PIXEL);
         }
     }
 
     // Helper method to print the screen pixels to the console.
     private static void printScreen(char[][] screen) {
-        for (int i = 0; i < screen.length; i++) {
-            for (int j = 0; j < screen[i].length; j++) {
-                System.out.print(screen[i][j] + " ");
+        for (char[] row : screen) {
+            for (char c : row) {
+                System.out.print(c + " ");
             }
             System.out.println();
         }
@@ -133,17 +139,17 @@ public class Day10_Cathode_Ray_Tube {
         int row = (currentCycle-1) / SCREEN_PIXEL_WIDTH;
         int column = (currentCycle-1) % SCREEN_PIXEL_WIDTH;
 
-        // If the pixel we are drawing is overlapping a sprite, then draw a pound sign (#)
-        // Otherwise, draw a dot (.)
+        // If the pixel we are drawing is overlapping a sprite, then draw a lit pixel.
+        // Otherwise, draw an unlit pixel.
         if (isSpriteOverlappingPixelDrawing(currentCycle, registerValue)) {
-            screen[row][column] = '#';
+            screen[row][column] = LIT_PIXEL;
         } else {
-            screen[row][column] = '.';
+            screen[row][column] = UNLIT_PIXEL;
         }
     }
 
     // Part 2: Prints the resulting pixels of the CRT screen to the console
-    // after executing all the input commands. Pixels are considered lit (with a # character) if at the time it is
+    // after executing all the input commands. Pixels are considered lit if at the time it is
     // being drawn, there is a sprite overlapping at that location.
     private static void part2(List<CommandEntry> entries) {
         char[][] screen = new char[SCREEN_PIXEL_HEIGHT][SCREEN_PIXEL_WIDTH];
